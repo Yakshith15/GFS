@@ -1,0 +1,80 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Editors / IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs and temp
+*.log
+tmp/
+temp/
+
+# Dependencies and build output (common stacks)
+node_modules/
+dist/
+build/
+out/
+.next/
+.nuxt/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+target/
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+go.work.sum
+vendor/
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Kubernetes
+kubeconfig
+*.kubeconfig
+**/kubeconfig.local
+.kube/cache
+.kube/http-cache
+
+# Helm
+**/charts/*.tgz
+
+# Terraform (often used with k8s / cloud)
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Coverage / test artifacts
+coverage/
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
