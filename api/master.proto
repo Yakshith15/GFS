@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package api;
+
+service MasterService {
+  rpc CreateFile(CreateFileRequest) returns (CreateFileResponse);
+  rpc AllocateChunk(AllocateChunkRequest) returns (AllocateChunkResponse);
+  rpc GetChunkLocations(GetChunkLocationRequest) returns (GetChunkLocationResponse);
+}
+
+enum Status {
+  OK = 0;
+  ERROR = 1;
+  FILE_NOT_FOUND = 2;
+  ALREADY_EXISTS = 3;
+  CHUNK_NOT_FOUND = 4;
+}
+
+message CreateFileRequest {
+  string file_path = 1;
+}
+
+message CreateFileResponse {
+  Status status = 1;
+  string error_message = 2;
+}
+
+message AllocateChunkRequest {
+  string file_path = 1;
+}
+
+message ChunkServer {
+  string id = 1;
+  string address = 2;
+}
+
+message AllocateChunkResponse {
+  Status status = 1;
+  string error_message = 2;
+
+  string chunk_id = 3;
+  repeated ChunkServer chunkservers = 4;
+}
+
+message GetChunkLocationRequest {
+  string file_path = 1;
+  int32 chunk_index = 2;
+}
+
+message GetChunkLocationResponse {
+  Status status = 1;
+  string error_message = 2;
+
+  string chunk_id = 3;
+  repeated ChunkServer chunkservers = 4;
+}
