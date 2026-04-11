@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package api;
+
+import "common.proto";
+
+service ChunkServerService {
+  rpc ReadChunk(ReadChunkRequest) returns (ReadChunkResponse);
+  rpc WriteChunk(WriteChunkRequest) returns (WriteChunkResponse);
+  rpc ReplicateChunk(ReplicateChunkRequest) returns (ReplicateChunkResponse);
+}
+
+message ReadChunkRequest {
+  string chunk_id = 1;
+  int64 offset = 2;
+  int64 length = 3;
+}
+
+message ReadChunkResponse {
+  Status status = 1;
+  string error_message = 2;
+  bytes data = 3;
+}
+
+message WriteChunkRequest {
+  string chunk_id = 1;
+  int64 offset = 2;
+  bytes data = 3;
+}
+
+message WriteChunkResponse {
+  Status status = 1;
+  string error_message = 2;
+}
+
+message ReplicateChunkRequest {
+  string chunk_id = 1;
+  string source_address = 2;
+}
+
+message ReplicateChunkResponse {
+  Status status = 1;
+  string error_message = 2;
+}
