@@ -1,27 +1,34 @@
 package chunkserver
 
 import (
-	"github.com/Yakshith15/GFS/internal/chunkserver/storage"
-	"github.com/Yakshith15/GFS/internal/chunkserver/server"
 	"log"
-	"google.golang.org/grpc"
 	"net"
+
 	"github.com/Yakshith15/GFS/api"
+	"github.com/Yakshith15/GFS/internal/chunkserver/server"
+	"github.com/Yakshith15/GFS/internal/chunkserver/storage"
+	"google.golang.org/grpc"
 )
 
 func main() {
-	storage, err := storage.NewStorage("gfs/chunks")
+	store, err := storage.NewStorage("./data/chunks")
 	if err != nil {
 		log.Fatalf("failed to create storage: %v", err)
 	}
-	server := server.NewServer(storage)
+
+	cs := server.NewServer(store)
+
 	grpcServer := grpc.NewServer()
-	api.RegisterChunkServerServiceServer(grpcServer, server)
-	lis, err := net.Listen("tcp", ":5001")
+	api.RegisterChunkServerServiceServer(grpcServer, cs)
+
+	port := ":5001"
+	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	log.Println("Chunk server running on port 5001...")
+
+	log.Printf("Chunk server running on %s...\n", port)
+
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
