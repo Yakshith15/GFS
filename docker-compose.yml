@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  master:
+    build:
+      context: .
+      dockerfile: Dockerfile.master
+    container_name: master
+    ports:
+      - "8080:8080"
+    networks:
+      - gfs-net
+
+  chunk-1:
+    build:
+      context: .
+      dockerfile: Dockerfile.chunkserver
+    container_name: chunk-1
+    ports:
+      - "5001:5001"
+    networks:
+      - gfs-net
+
+  chunk-2:
+    build:
+      context: .
+      dockerfile: Dockerfile.chunkserver
+    container_name: chunk-2
+    ports:
+      - "5002:5002"
+    networks:
+      - gfs-net
+
+  chunk-3:
+    build:
+      context: .
+      dockerfile: Dockerfile.chunkserver
+    container_name: chunk-3
+    ports:
+      - "5003:5003"
+    networks:
+      - gfs-net
+
+networks:
+  gfs-net:
