@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 	"github.com/google/uuid"
 	"io"
-	"google.golang.org/grpc"
 )
 
 type Storage struct{
@@ -90,24 +89,4 @@ func (s *Storage) ReadChunk(chunkID uuid.UUID, offset int64, length int64) ([]by
 	}
 
 	return data[:n], nil
-}
-
-func (s *Storage) ReplicateChunk(chunkID uuid.UUID, sourceAddress string) error {
-	lock := s.getLock(chunkID)
-	defer lock.Unlock()
-
-	path := s.getChunkPath(chunkID)
-
-	f, err := os.Open(path)
-	if err != nil {
-		return err
-	}
-	defer f.Close()
-
-	sourceClient, err := grpc.Dial(sourceAddress, grpc.WithInsecure())
-	if err != nil {
-		return err
-	}
-	defer sourceClient.Close()
-
 }
