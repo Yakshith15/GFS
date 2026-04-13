@@ -1,0 +1,26 @@
+docker compose up --build
+
+grpcurl -plaintext \
+  -d '{"file_path": "/foo"}' \
+  localhost:8080 api.MasterService/CreateFile
+
+  grpcurl -plaintext \
+  -d '{"file_path": "/foo"}' \
+  localhost:8080 api.MasterService/AllocateChunk
+
+  grpcurl -plaintext \
+  -d '{
+    "chunk_id": "CHUNK_ID",
+    "offset": 0,
+    "data": "hello"
+  }' \
+  localhost:5001 api.ChunkServerService/WriteChunk
+
+
+  grpcurl -plaintext \
+  -d '{
+    "chunk_id": "CHUNK_ID",
+    "offset": 0,
+    "length": 5
+  }' \
+  localhost:5001 api.ChunkServerService/ReadChunk
